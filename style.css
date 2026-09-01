@@ -1,0 +1,163 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #000; color: #e6edf3; overflow-x: hidden; }
+
+/* ========================================= */
+/* THE AERO GROUP HUB VE GEÇİŞ               */
+/* ========================================= */
+#hub-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #020202; z-index: 100000; display: flex; justify-content: center; align-items: center;
+}
+.hub-intro { position: absolute; opacity: 0; animation: cinematicIntro 4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+/* Logodaki dış parlama (glow) silindi */
+.hub-intro img { width: 350px; height: auto; } 
+
+@keyframes cinematicIntro {
+    0% { opacity: 0; transform: scale(0.85); filter: blur(10px); }
+    25% { opacity: 1; transform: scale(1); filter: blur(0px); }
+    75% { opacity: 1; transform: scale(1); filter: blur(0px); }
+    100% { opacity: 0; transform: scale(1.1); filter: blur(10px); }
+}
+
+.hub-projects { position: absolute; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; text-align: center; }
+.hub-projects h2 { font-size: 2.5rem; margin-bottom: 50px; color: #fff; letter-spacing: 3px; text-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+.project-grid { display: flex; gap: 40px; justify-content: center; }
+.project-card { background: rgba(20, 20, 25, 0.8); border: 1px solid #2a2a35; padding: 30px 40px; border-radius: 16px; cursor: pointer; transition: all 0.4s; display: flex; flex-direction: column; align-items: center; gap: 20px; min-width: 220px; position: relative; overflow: hidden; }
+.project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #58a6ff; transform: scaleX(0); transition: transform 0.4s; }
+.project-card:hover { transform: translateY(-10px); border-color: #58a6ff; box-shadow: 0 15px 40px rgba(88, 166, 255, 0.2); background: rgba(30, 30, 40, 0.9); }
+.project-card:hover::before { transform: scaleX(1); }
+.project-card img { width: 90px; height: auto; transition: transform 0.4s; }
+.project-card:hover img { transform: scale(1.1); }
+.project-card span { font-size: 1.3rem; font-weight: bold; color: #fff; }
+
+/* GEÇİŞ (WIPE) */
+#wipe-transition {
+    position: fixed; top: 0; right: -100vw; width: 100vw; height: 100vh;
+    background: #020202; z-index: 200000; display: flex; justify-content: center; align-items: center;
+    transition: right 0.8s cubic-bezier(0.77, 0, 0.175, 1); 
+    border-left: 5px solid #ff4444; box-shadow: -20px 0 50px rgba(255, 68, 68, 0.2);
+}
+#wipe-transition img { width: 250px; animation: wipeSpin 1.5s ease-in-out infinite alternate; }
+@keyframes wipeSpin { 0% { transform: scale(0.9) rotate(-10deg); filter: drop-shadow(0 0 20px #ff4444); } 100% { transform: scale(1.1) rotate(10deg); filter: drop-shadow(0 0 50px #ff4444); } }
+.wipe-active { right: 0vw !important; }
+.wipe-out { right: 100vw !important; }
+
+/* ========================================= */
+/* AEROMC SİTESİ VE UÇAN LOGO                */
+/* ========================================= */
+#aeromc-site { display: none; opacity: 0; transition: opacity 1s ease; position: relative; min-height: 100vh; background-color: #050505; }
+.bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #111a2e 0%, #050505 100%); z-index: 0; }
+
+/* Siyah Arka Plan (Uçuş Animasyonu İçin) */
+#intro-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #050505; z-index: 100000; transition: opacity 1s ease-in-out;
+}
+
+.intro-logo-hub {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 250px; height: auto; z-index: 100001;
+    filter: drop-shadow(0 0 40px rgba(88, 166, 255, 0.8));
+    animation: introFloat 2.5s ease-in-out infinite;
+    pointer-events: none; opacity: 0; 
+}
+@keyframes introFloat { 0%, 100% { margin-top: 0; } 50% { margin-top: -25px; } }
+
+/* NAVBAR */
+.navbar { position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); z-index: 100; }
+.nav-brand { font-size: 1.5rem; font-weight: bold; color: #58a6ff; letter-spacing: 1px; }
+.nav-logo { height: 30px; width: auto; margin-right: 10px; vertical-align: middle; opacity: 0; } 
+.nav-links { display: flex; list-style: none; gap: 30px; }
+.nav-links a { color: #c9d1d9; text-decoration: none; transition: color 0.3s; }
+.nav-links a:hover { color: #58a6ff; }
+.nav-copyright { font-size: 0.8rem; color: #8b949e; }
+
+/* KAHRAMAN ALANI VE ÖZELLİKLER */
+.hero { min-height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; padding: 20px; position: relative; z-index: 5;}
+.hero-logo { width: 200px; height: auto; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(88, 166, 255, 0.4)); animation: agFloat 4s ease-in-out infinite; cursor: pointer; }
+.hero-content h1 { font-size: 5rem; font-weight: 900; color: #ffffff; margin-bottom: 20px; text-shadow: 0 0 30px rgba(88, 166, 255, 0.4); }
+.hero-content p { font-size: 1.2rem; color: #8b949e; max-width: 700px; margin: 0 auto 40px auto; line-height: 1.6; }
+
+.features-wrapper { padding: 80px 20px; max-width: 1300px; margin: 0 auto; position: relative; z-index: 5;}
+.section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; color: #ffffff; }
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+.feature-card { background: rgba(22, 27, 34, 0.4); padding: 30px; border-radius: 12px; border: 1px solid #30363d; backdrop-filter: blur(5px); transition: transform 0.3s, border-color 0.3s; }
+.feature-card:hover { transform: translateY(-5px); border-color: #58a6ff; background: rgba(22, 27, 34, 0.8); }
+.feature-card h3 { color: #e6edf3; margin-bottom: 15px; font-size: 1.2rem; }
+.feature-card p { color: #8b949e; line-height: 1.6; font-size: 0.95rem; }
+
+/* AEROGUARD */
+.aeroguard-section { position: relative; z-index: 5; background: linear-gradient(180deg, transparent 0%, rgba(20, 5, 5, 0.8) 20%, rgba(20, 5, 5, 0.8) 80%, transparent 100%); padding: 100px 20px; border-top: 1px solid rgba(255, 50, 50, 0.2); border-bottom: 1px solid rgba(255, 50, 50, 0.2); }
+.aeroguard-content { max-width: 1000px; margin: 0 auto; text-align: center; }
+.ag-main-logo { width: 150px; height: auto; margin-bottom: 25px; filter: drop-shadow(0 0 30px rgba(255, 50, 50, 0.3)); animation: agPulse 3s infinite alternate; cursor: pointer;}
+.ag-title { color: #ff4444; font-size: 2.5rem; margin-bottom: 10px; text-shadow: 0 0 15px rgba(255, 50, 50, 0.4); }
+.ag-subtitle { color: #8b949e; font-size: 1.1rem; margin-bottom: 50px; }
+.ag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; text-align: left; }
+.ag-item { background: #050505; border: 1px solid #161b22; padding: 25px; border-radius: 10px; position: relative; overflow: hidden; }
+.ag-item::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #ff4444; opacity: 0.5; }
+.ag-item h4 { color: #e6edf3; margin-bottom: 10px; font-size: 1.1rem; }
+.ag-item p { color: #8b949e; font-size: 0.9rem; line-height: 1.5; }
+
+/* İNDİRME ALANI VE PATLAYAN BUTON */
+.download-section { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px 20px; position: relative; z-index: 5;}
+.os-greeting { font-size: 2rem; color: #ffffff; margin-bottom: 40px; font-weight: 300; }
+.os-greeting span { color: #58a6ff; font-weight: bold; }
+
+.download-container { position: relative; display: inline-block; padding: 20px; perspective: 1000px; margin-bottom: 20px; }
+.glow-core { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; background: radial-gradient(circle, #58a6ff 0%, transparent 70%); opacity: 0; filter: blur(20px); z-index: 0; }
+.download-btn { position: relative; z-index: 10; padding: 18px 45px; font-size: 1.4rem; font-weight: bold; color: #fff; background: linear-gradient(45deg, #1f6feb, #238636); border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; transition: transform 0.1s ease; }
+.shatter-piece { position: absolute; top: 50%; width: 30px; height: 70%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; z-index: 5; pointer-events: none; }
+.left-piece { left: 0; transform: translateY(-50%); }
+.right-piece { right: 0; transform: translateY(-50%); }
+
+.download-container.exploding .glow-core { opacity: 1; animation: pulseLight 1s infinite alternate; }
+.download-container.exploding .left-piece { transform: translate(-100px, -50px) rotate(-45deg) scale(0.5); opacity: 0; transition: 0.5s; }
+.download-container.exploding .right-piece { transform: translate(100px, 50px) rotate(45deg) scale(0.5); opacity: 0; transition: 0.5s; }
+.download-container.exploding .download-btn { background: #ffffff; color: #000; transform: scale(0.95); box-shadow: 0 0 40px #58a6ff, 0 0 80px #3fb950; }
+
+/* OVERLAY VE MODALLAR */
+.modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); }
+.modal-content { background-color: #0d1117; margin: 5% auto; padding: 30px; border: 1px solid #30363d; border-radius: 12px; width: 80%; max-width: 800px; position: relative; box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
+.close-modal { position: absolute; top: 20px; right: 25px; color: #8b949e; font-size: 28px; cursor: pointer; }
+
+.feature-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(15px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+.feature-overlay.active { opacity: 1; pointer-events: all; }
+.feature-overlay-content { background: #0d1117; border: 1px solid #30363d; padding: 60px 40px; border-radius: 16px; width: 90%; max-width: 800px; text-align: center; transform: translateY(50px) scale(0.95); transition: transform 0.4s; }
+.feature-overlay.active .feature-overlay-content { transform: translateY(0) scale(1); }
+.close-overlay { position: absolute; top: 20px; right: 30px; font-size: 35px; color: #8b949e; cursor: pointer; }
+.fo-icon { font-size: 5rem; margin-bottom: 20px; display: inline-block; }
+.fo-title { color: #58a6ff; font-size: 2.2rem; margin-bottom: 20px; }
+.fo-desc { color: #c9d1d9; font-size: 1.1rem; line-height: 1.8; text-align: left; }
+.fo-desc ul { margin-top: 15px; padding-left: 20px; list-style: none; }
+.fo-desc ul li::before { content: "▹"; color: #3fb950; margin-right: 10px; }
+
+.clickable { cursor: pointer; position: relative; }
+.clickable::after { content: "Daha fazla bilgi ↗"; position: absolute; bottom: 15px; right: 20px; font-size: 0.8rem; color: #58a6ff; opacity: 0; transition: opacity 0.3s; }
+.clickable:hover::after { opacity: 1; }
+
+/* EFEKTLER (Mause, Patlama, Yerçekimi vb.) */
+.anim-pulse { animation: agPulse 1.5s infinite alternate; }
+.anim-spin { animation: agSpin 4s linear infinite; }
+.anim-float { animation: agFloat 3s ease-in-out infinite; }
+@keyframes agPulse { 0% { transform: scale(1); filter: drop-shadow(0 0 10px #58a6ff); } 100% { transform: scale(1.15); filter: drop-shadow(0 0 30px #58a6ff); } }
+@keyframes agSpin { 100% { transform: rotate(360deg); } }
+@keyframes agFloat { 0% { transform: translateY(0); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0); } }
+
+.cursor-glow { position: fixed; top: 0; left: 0; width: 500px; height: 500px; background: radial-gradient(circle, rgba(88, 166, 255, 0.08) 0%, transparent 60%); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 9999; mix-blend-mode: screen; }
+
+.global-flash { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 50; pointer-events: none; mix-blend-mode: screen; background: radial-gradient(circle farthest-corner at var(--x, 50%) var(--y, 50%), rgba(88, 166, 255, 1) 0%, rgba(63, 185, 80, 0.7) 40%, transparent 90%); clip-path: circle(0% at var(--x, 50%) var(--y, 50%)); opacity: 0; }
+.global-flash.ignite { animation: flashGrow 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+.global-flash.extinguish { animation: flashShrink 1s cubic-bezier(0.5, 0, 0.25, 1) forwards; }
+@keyframes flashGrow { 0% { clip-path: circle(0% at var(--x, 50%) var(--y, 50%)); opacity: 0; } 10% { opacity: 1; } 100% { clip-path: circle(150% at var(--x, 50%) var(--y, 50%)); opacity: 1; } }
+@keyframes flashShrink { 0% { clip-path: circle(150% at var(--x, 50%) var(--y, 50%)); opacity: 1; } 80% { opacity: 1; } 100% { clip-path: circle(0% at var(--x, 50%) var(--y, 50%)); opacity: 0; } }
+
+.falling { animation: gravityDrop 2s cubic-bezier(0.28, 0.84, 0.42, 1) forwards !important; }
+@keyframes gravityDrop {
+    0% { transform: translateY(0) rotate(0deg); animation-timing-function: ease-in; }
+    40% { transform: translateY(var(--drop-y)) rotate(15deg); animation-timing-function: ease-out; }
+    55% { transform: translateY(calc(var(--drop-y) - 80px)) rotate(30deg); animation-timing-function: ease-in; }
+    70% { transform: translateY(var(--drop-y)) rotate(45deg); animation-timing-function: ease-out; }
+    85% { transform: translateY(calc(var(--drop-y) - 30px)) rotate(60deg); animation-timing-function: ease-in; }
+    100% { transform: translateY(var(--drop-y)) rotate(75deg); opacity: 0.5; }
+}
