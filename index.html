@@ -38,12 +38,13 @@
         <nav class="navbar">
             <div class="nav-brand">
                 <img src="aeromc.png" alt="AeroMC Logo" class="nav-logo" id="nav-logo">
-                AeroMC
+                <span id="navBrandText">AeroMC</span>
             </div>
             <ul class="nav-links">
                 <li><a href="#features">Özellikler</a></li>
                 <li><a href="#security">AeroGuard</a></li>
                 <li><a href="#download">İndir</a></li>
+                <li><a href="#" id="openAboutBtn">Biz Kimiz</a></li>
             </ul>
             <div class="nav-copyright">&copy; 2026 AeroMC By The Aero Group</div>
         </nav>
@@ -51,7 +52,7 @@
         <header class="hero">
             <div class="hero-content">
                 <img src="aeromc.png" alt="AeroMC Main Logo" class="hero-logo">
-                <h1 class="glitch" data-text="AeroMC">AeroMC</h1>
+                <h1 class="glitch" data-text="AeroMC" id="mainGlitchTitle">AeroMC</h1>
                 <p>Sadece bir panel değil. Exaroton, Pterodactyl ve yerel sunucuların için tam donanımlı otomasyon, güvenlik ve performans ekosistemi.</p>
                 <a href="#features" class="scroll-down-btn">Keşfet ↓</a>
             </div>
@@ -90,7 +91,7 @@
         <section id="security" class="aeroguard-section">
             <div class="aeroguard-content">
                 <img src="aeroguard-v2.png" alt="AeroGuard V2.3 Logo" class="ag-main-logo">
-                <h2 class="ag-title">🛡️ AeroGuard V2.3</h2>
+                <h2 class="ag-title" id="agMainTitle">🛡️ AeroGuard V2.3</h2>
                 <p class="ag-subtitle">Bir sunucu panelinden çok, şifreli bir dijital kasa.</p>
                 
                 <div class="ag-grid">
@@ -156,6 +157,55 @@ granted except by separate written permission from the copyright holder.
                 <div id="foDesc" class="fo-desc"></div>
             </div>
         </div>
+
+        <!-- BİZ KİMİZ EKRANI -->
+        <div id="aboutOverlay" class="about-overlay">
+            <span class="close-about" id="closeAboutBtn">&times;</span>
+            <div class="about-content">
+                <img src="WhatsApp Image 2026-09-01 at 22.31.43.jpeg" alt="The Aero Group" class="about-item about-logo">
+                <h2 class="about-item about-title">BİZ KİMİZ?</h2>
+                <div class="about-item about-text">
+                    <p>Biz AeroMC'yi geliştiren ekibiz! Başka projelerimiz de var ama şu anda geliştirme aşamasında. Ama yakında çıkabilir...</p>
+                    <br>
+                    <p>AeroMC'de emeği geçenler:</p>
+                    <p class="highlight-name">Liytles</p>
+                    <p class="small-text">eh, başka biri yok gibi.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- EASTER EGG: YUMURTA VE KONTROL PANELİ -->
+        <div id="eggOverlay" class="easter-egg-overlay">
+            <div class="egg-container" id="eggContainer">
+                <span class="egg-icon" id="theEgg">🥚</span>
+                <h2 id="eggMessage" class="egg-message"></h2>
+            </div>
+        </div>
+
+        <div id="fakePanelOverlay" class="fake-panel-overlay">
+            <div class="fake-panel">
+                <span class="close-fake-panel" id="closeFakePanel">&times;</span>
+                <h2 class="hacker-title">root@aeromc:~# SİSTEME SIZILDI</h2>
+                <p class="hacker-text">AeroMC ve AeroGuard çekirdek modüllerine geçici erişim sağlandı. DOM manipülasyonu aktif.</p>
+                
+                <div class="hacker-input-group">
+                    <label>AeroMC Yeni Adı:</label>
+                    <input type="text" id="newAeroMcName" placeholder="Örn: BabuşMC">
+                </div>
+                
+                <div class="hacker-input-group">
+                    <label>AeroGuard Yeni Adı:</label>
+                    <input type="text" id="newAeroGuardName" placeholder="Örn: BabuşGuard V9.9">
+                </div>
+                
+                <button id="applyFakeChanges" class="hacker-btn">SİSTEME ENJEKTE ET</button>
+                <button id="refreshFakeSystem" class="hacker-btn btn-danger">YENİLE (SIFIRLA)</button>
+            </div>
+        </div>
+
+        <!-- YENİ: SES KONTROL BUTONU -->
+        <button id="muteBtn" class="mute-btn" title="Sesleri Kapat/Aç">🔊</button>
+
     </div> 
 
     <script src="app.js"></script>

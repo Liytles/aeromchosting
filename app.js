@@ -1,6 +1,86 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     // =========================================
+    // 0. SİBER SES MOTORU (WEB AUDIO API) - YUMUŞATILDI & MUTE
+    // =========================================
+    let audioCtx;
+    let isMuted = false;
+
+    const muteBtn = document.getElementById('muteBtn');
+    if (muteBtn) {
+        muteBtn.addEventListener('click', (e) => {
+            isMuted = !isMuted;
+            muteBtn.innerText = isMuted ? '🔇' : '🔊';
+            muteBtn.classList.toggle('muted', isMuted);
+            e.stopPropagation(); 
+        });
+    }
+    
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    }
+    window.addEventListener('click', initAudio, { once: true });
+    window.addEventListener('keydown', initAudio, { once: true });
+
+    function playSound(type) {
+        if (isMuted || !audioCtx) return; 
+        
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+
+        if (type === 'hover') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, now);
+            gainNode.gain.setValueAtTime(0.015, now); 
+            gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+            osc.start(now);
+            osc.stop(now + 0.04);
+        } else if (type === 'click') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(1200, now);
+            osc.frequency.exponentialRampToValueAtTime(600, now + 0.08);
+            gainNode.gain.setValueAtTime(0.03, now); 
+            gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+            osc.start(now);
+            osc.stop(now + 0.08);
+        } else if (type === 'whoosh') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(200, now);
+            osc.frequency.exponentialRampToValueAtTime(40, now + 0.6);
+            gainNode.gain.setValueAtTime(0.04, now);
+            gainNode.gain.linearRampToValueAtTime(0.001, now + 0.6);
+            osc.start(now);
+            osc.stop(now + 0.6);
+        } else if (type === 'explode') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(150, now);
+            osc.frequency.exponentialRampToValueAtTime(10, now + 0.8);
+            gainNode.gain.setValueAtTime(0.1, now); 
+            gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+            osc.start(now);
+            osc.stop(now + 0.8);
+        }
+    }
+
+    setTimeout(() => {
+        const interactiveElements = document.querySelectorAll('a, .clickable, .hacker-btn, .download-btn, .project-card, .egg-icon, .close-overlay, .close-about, .close-fake-panel');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => playSound('hover'));
+            el.addEventListener('click', () => {
+                if(el.id !== 'dlBtn' && el.id !== 'theEgg' && el.id !== 'openAboutBtn') {
+                    playSound('click');
+                }
+            });
+        });
+    }, 1000); 
+
+    // =========================================
     // 1. HUB EKRANI, WIPE VE UÇAN LOGO
     // =========================================
     const hubScreen = document.getElementById('hub-screen');
@@ -24,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (openAeromcBtn) {
         openAeromcBtn.addEventListener('click', () => {
+            playSound('whoosh'); 
             wipeTransition.classList.add('wipe-active');
 
             setTimeout(() => {
@@ -75,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
     // 2. ANA SİTE MANTIKLARI (AKILLI İNDİRME)
     // =========================================
-
     const cursorGlow = document.createElement('div');
     cursorGlow.className = 'cursor-glow';
     document.body.appendChild(cursorGlow);
@@ -95,14 +175,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusText = document.getElementById('dlStatus');
     const osGreeting = document.getElementById('osGreeting');
 
-    // YENİ: GITHUB RELEASE LİNKLERİ ENTEGRE EDİLDİ
     function detectOS() {
         let userAgent = window.navigator.userAgent;
         if (userAgent.indexOf("Windows") !== -1) return { name: "Windows", icon: "🪟", file: "https://github.com/Liytles/aeromchosting/releases/download/v4/AeroMC-Setup.exe" };
         if (userAgent.indexOf("Mac") !== -1) return { name: "macOS", icon: "🍎", file: "https://github.com/Liytles/aeromchosting/releases/download/v4/AeroMC-Installer.dmg" };
         if (userAgent.indexOf("Linux") !== -1) return { name: "Linux", icon: "🐧", file: "https://github.com/Liytles/aeromchosting/releases/download/v4/AeroMC-Linux.deb" };
         
-        // İşletim sistemi anlaşılamazsa standart olarak .exe dosyasını versin
         return { name: "Evrensel", icon: "📦", file: "https://github.com/Liytles/aeromchosting/releases/download/v4/AeroMC-Setup.exe" };
     }
 
@@ -131,6 +209,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         btn.addEventListener('click', () => {
             if (container.classList.contains('exploding')) return; 
+            
+            playSound('explode'); 
+
             container.classList.add('exploding');
             btnText.innerText = "Başlatılıyor...";
             
@@ -151,7 +232,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 statusText.innerText = `AeroMC ${currentOS.name} sürümü güvenli bir şekilde indiriliyor...`;
                 statusText.style.opacity = "1";
                 
-                // Animasyon parladığı anda doğru GitHub dosyasını indir
                 const downloadLink = document.createElement('a');
                 downloadLink.href = currentOS.file; 
                 document.body.appendChild(downloadLink);
@@ -237,4 +317,123 @@ document.addEventListener("DOMContentLoaded", () => {
             if (e.target == featureOverlay) featureOverlay.classList.remove('active');
         });
     }
+
+    // =========================================
+    // 3. BİZ KİMİZ (ABOUT) MODALI EKLENTİSİ
+    // =========================================
+    const openAboutBtn = document.getElementById('openAboutBtn');
+    const closeAboutBtn = document.getElementById('closeAboutBtn');
+    const aboutOverlay = document.getElementById('aboutOverlay');
+
+    if (openAboutBtn && closeAboutBtn && aboutOverlay) {
+        openAboutBtn.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            playSound('whoosh'); 
+            aboutOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        });
+
+        closeAboutBtn.addEventListener('click', () => {
+            aboutOverlay.classList.remove('active');
+            document.body.style.overflow = ''; 
+        });
+
+        aboutOverlay.addEventListener('click', (e) => {
+            if (e.target === aboutOverlay) {
+                aboutOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+
+    // =========================================
+    // 4. EASTER EGG (GİZLİ TERMİNAL)
+    // =========================================
+    let secretCode = "aero";
+    let inputSequence = "";
+
+    const eggOverlay = document.getElementById('eggOverlay');
+    const theEgg = document.getElementById('theEgg');
+    const eggMessage = document.getElementById('eggMessage');
+    const fakePanelOverlay = document.getElementById('fakePanelOverlay');
+    const closeFakePanel = document.getElementById('closeFakePanel');
+
+    window.addEventListener('keydown', (e) => {
+        if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        inputSequence += e.key.toLowerCase();
+        
+        if (inputSequence.length > secretCode.length) {
+            inputSequence = inputSequence.substring(1);
+        }
+        
+        if (inputSequence === secretCode) {
+            eggOverlay.classList.add('active');
+            playSound('whoosh');
+            inputSequence = ""; 
+        }
+    });
+
+    theEgg.addEventListener('click', () => {
+        playSound('explode'); 
+        theEgg.classList.add('explode');
+        setTimeout(() => {
+            eggMessage.innerText = "BUM! EASTER EGG'İ BULDUN!";
+            eggMessage.classList.add('show');
+            
+            setTimeout(() => {
+                eggOverlay.classList.remove('active');
+                theEgg.classList.remove('explode');
+                eggMessage.classList.remove('show');
+                fakePanelOverlay.classList.add('active');
+            }, 2500); 
+        }, 500); 
+    });
+
+    closeFakePanel.addEventListener('click', () => {
+        fakePanelOverlay.classList.remove('active');
+    });
+
+    const btnInject = document.getElementById('applyFakeChanges');
+    const btnReset = document.getElementById('refreshFakeSystem');
+
+    const mainTitle = document.getElementById('mainGlitchTitle');
+    const navBrandText = document.getElementById('navBrandText');
+    const agTitleTarget = document.getElementById('agMainTitle');
+
+    let originalMainTitle = "AeroMC";
+    let originalAgTitle = "🛡️ AeroGuard V2.3";
+
+    btnInject.addEventListener('click', () => {
+        const newAero = document.getElementById('newAeroMcName').value || "AeroMC";
+        const newGuard = document.getElementById('newAeroGuardName').value || "🛡️ AeroGuard V2.3";
+
+        mainTitle.innerText = newAero;
+        mainTitle.setAttribute('data-text', newAero); 
+        navBrandText.innerText = newAero;
+        agTitleTarget.innerText = newGuard;
+        
+        fakePanelOverlay.classList.remove('active');
+    });
+
+    btnReset.addEventListener('click', () => {
+        fakePanelOverlay.classList.remove('active');
+
+        mainTitle.classList.add('rapid-blink');
+        navBrandText.classList.add('rapid-blink');
+        agTitleTarget.classList.add('rapid-blink');
+        
+        playSound('explode');
+
+        setTimeout(() => {
+            mainTitle.classList.remove('rapid-blink');
+            navBrandText.classList.remove('rapid-blink');
+            agTitleTarget.classList.remove('rapid-blink');
+
+            mainTitle.innerText = originalMainTitle;
+            mainTitle.setAttribute('data-text', originalMainTitle);
+            navBrandText.innerText = originalMainTitle;
+            agTitleTarget.innerText = originalAgTitle;
+        }, 2000);
+    });
 });

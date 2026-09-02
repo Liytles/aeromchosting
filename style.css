@@ -10,7 +10,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
     background: #020202; z-index: 100000; display: flex; justify-content: center; align-items: center;
 }
 .hub-intro { position: absolute; opacity: 0; animation: cinematicIntro 4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-/* Logodaki dış parlama (glow) silindi */
 .hub-intro img { width: 350px; height: auto; } 
 
 @keyframes cinematicIntro {
@@ -49,7 +48,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
 #aeromc-site { display: none; opacity: 0; transition: opacity 1s ease; position: relative; min-height: 100vh; background-color: #050505; }
 .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #111a2e 0%, #050505 100%); z-index: 0; }
 
-/* Siyah Arka Plan (Uçuş Animasyonu İçin) */
 #intro-screen {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: #050505; z-index: 100000; transition: opacity 1s ease-in-out;
@@ -66,8 +64,8 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
 
 /* NAVBAR */
 .navbar { position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); z-index: 100; }
-.nav-brand { font-size: 1.5rem; font-weight: bold; color: #58a6ff; letter-spacing: 1px; }
-.nav-logo { height: 30px; width: auto; margin-right: 10px; vertical-align: middle; opacity: 0; } 
+.nav-brand { font-size: 1.5rem; font-weight: bold; color: #58a6ff; letter-spacing: 1px; display: flex; align-items: center; }
+.nav-logo { height: 30px; width: auto; margin-right: 10px; opacity: 0; } 
 .nav-links { display: flex; list-style: none; gap: 30px; }
 .nav-links a { color: #c9d1d9; text-decoration: none; transition: color 0.3s; }
 .nav-links a:hover { color: #58a6ff; }
@@ -160,4 +158,114 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
     70% { transform: translateY(var(--drop-y)) rotate(45deg); animation-timing-function: ease-out; }
     85% { transform: translateY(calc(var(--drop-y) - 30px)) rotate(60deg); animation-timing-function: ease-in; }
     100% { transform: translateY(var(--drop-y)) rotate(75deg); opacity: 0.5; }
+}
+
+/* ========================================= */
+/* BİZ KİMİZ EKRANI                          */
+/* ========================================= */
+.about-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #020202; 
+    z-index: 300000; display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
+}
+.about-overlay.active { opacity: 1; pointer-events: all; }
+
+.close-about {
+    position: absolute; top: 30px; right: 40px; font-size: 50px; color: #8b949e; cursor: pointer; transition: color 0.3s; z-index: 300001;
+}
+.close-about:hover { color: #ff4444; }
+
+.about-content { text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+.about-item { opacity: 0; transform: translateY(30px); transition: opacity 1.2s ease, transform 1.2s ease; }
+
+.about-overlay.active .about-logo { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+.about-overlay.active .about-title { opacity: 1; transform: translateY(0); transition-delay: 1.5s; }
+.about-overlay.active .about-text { opacity: 1; transform: translateY(0); transition-delay: 2.5s; }
+
+.about-logo { width: 220px; height: auto; margin-bottom: 25px; filter: drop-shadow(0 0 30px rgba(255, 0, 0, 0.4)); }
+.about-title { font-size: 4.5rem; font-weight: 900; color: #ffffff; letter-spacing: 8px; margin-bottom: 40px; text-shadow: 0 0 20px rgba(255,255,255,0.5); text-transform: uppercase; }
+.about-text { color: #c9d1d9; font-size: 1.2rem; line-height: 1.8; max-width: 650px; }
+.highlight-name { font-size: 2.5rem; color: #ff4444; font-weight: bold; margin: 20px 0 10px 0; text-shadow: 0 0 20px rgba(255, 68, 68, 0.6); letter-spacing: 2px;}
+.small-text { font-size: 0.95rem; color: #6e7681; font-style: italic; }
+
+/* ========================================= */
+/* EASTER EGG (YUMURTA & KONTROL PANELİ)     */
+/* ========================================= */
+.easter-egg-overlay, .fake-panel-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.95); z-index: 400000;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+}
+.easter-egg-overlay.active, .fake-panel-overlay.active { opacity: 1; pointer-events: all; }
+
+.egg-container { text-align: center; }
+.egg-icon { font-size: 120px; cursor: pointer; transition: transform 0.2s, filter 0.2s; display: inline-block; user-select: none; }
+.egg-icon:hover { transform: scale(1.2) rotate(15deg); filter: drop-shadow(0 0 30px #fff); }
+.egg-icon.explode { animation: explodeEgg 0.5s forwards; pointer-events: none; }
+.egg-message { color: #ff4444; font-size: 4rem; margin-top: 30px; text-shadow: 0 0 30px red; opacity: 0; transform: scale(0.5); transition: all 0.5s ease; font-weight: 900; }
+.egg-message.show { opacity: 1; transform: scale(1); }
+
+@keyframes explodeEgg {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.8); filter: brightness(2) drop-shadow(0 0 50px yellow); }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.fake-panel { background: #050505; border: 2px solid #00ff00; padding: 40px; border-radius: 8px; width: 90%; max-width: 600px; box-shadow: 0 0 40px rgba(0, 255, 0, 0.15); font-family: 'Courier New', Courier, monospace; position: relative; }
+.close-fake-panel { position: absolute; top: 15px; right: 20px; color: #00ff00; font-size: 35px; cursor: pointer; }
+.close-fake-panel:hover { color: #ff4444; }
+.hacker-title { color: #00ff00; font-size: 1.5rem; margin-bottom: 15px; border-bottom: 1px dashed #00ff00; padding-bottom: 10px; }
+.hacker-text { color: #00aa00; margin-bottom: 25px; line-height: 1.6; }
+.hacker-input-group { margin-bottom: 25px; text-align: left; }
+.hacker-input-group label { display: block; color: #00ff00; margin-bottom: 8px; font-weight: bold;}
+.hacker-input-group input { width: 100%; padding: 12px; background: #000; border: 1px solid #00aa00; color: #00ff00; outline: none; font-family: 'Courier New', Courier, monospace; font-size: 1.1rem;}
+.hacker-input-group input:focus { border-color: #00ff00; box-shadow: 0 0 15px rgba(0,255,0,0.4); }
+.hacker-btn { background: #000; color: #00ff00; border: 1px solid #00ff00; padding: 12px 25px; cursor: pointer; font-weight: bold; margin-right: 15px; transition: all 0.3s; font-family: inherit; margin-top: 10px;}
+.hacker-btn:hover { background: #00ff00; color: #000; box-shadow: 0 0 20px #00ff00;}
+.hacker-btn.btn-danger { color: #ff4444; border-color: #ff4444; }
+.hacker-btn.btn-danger:hover { background: #ff4444; color: #000; box-shadow: 0 0 20px #ff4444;}
+
+.rapid-blink { animation: rapidBlinkAnim 0.1s infinite !important; }
+@keyframes rapidBlinkAnim {
+    0% { opacity: 1; color: #fff; filter: drop-shadow(0 0 10px #fff); }
+    50% { opacity: 0; color: red; filter: none; }
+    100% { opacity: 1; color: #fff; filter: drop-shadow(0 0 10px #fff); }
+}
+
+/* ========================================= */
+/* SES KONTROL BUTONU                        */
+/* ========================================= */
+.mute-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(22, 27, 34, 0.8);
+    border: 1px solid #30363d;
+    color: #fff;
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 500000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+.mute-btn:hover {
+    border-color: #58a6ff;
+    box-shadow: 0 0 15px rgba(88, 166, 255, 0.3);
+    transform: scale(1.1);
+}
+.mute-btn.muted {
+    color: #ff4444;
+    border-color: #ff4444;
+}
+.mute-btn.muted:hover {
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
 }
