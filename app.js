@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    // =========================================
-    // 0. SİBER SES MOTORU (WEB AUDIO API) - YUMUŞATILDI & MUTE
-    // =========================================
     let audioCtx;
     let isMuted = false;
 
@@ -80,9 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }, 1000); 
 
-    // =========================================
-    // 1. HUB EKRANI, WIPE VE UÇAN LOGO
-    // =========================================
     const hubScreen = document.getElementById('hub-screen');
     const hubProjects = document.getElementById('hub-projects');
     const openAeromcBtn = document.getElementById('open-aeromc');
@@ -153,9 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // =========================================
-    // 2. ANA SİTE MANTIKLARI (AKILLI İNDİRME)
-    // =========================================
     const cursorGlow = document.createElement('div');
     cursorGlow.className = 'cursor-glow';
     document.body.appendChild(cursorGlow);
@@ -177,11 +168,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function detectOS() {
         let userAgent = window.navigator.userAgent;
-        if (userAgent.indexOf("Windows") !== -1) return { name: "Windows", icon: "🪟", file: "https://github.com/Liytles/aeromchosting/releases/download/v4/AeroMC-Setup.exe" };
-        if (userAgent.indexOf("Mac") !== -1) return { name: "macOS", icon: "🍎", file: "https://github.com/Liytles/aeromchosting/releases/download/v4/AeroMC-Installer.dmg" };
-        if (userAgent.indexOf("Linux") !== -1) return { name: "Linux", icon: "🐧", file: "https://github.com/Liytles/aeromchosting/releases/download/v4/AeroMC-Linux.deb" };
+        if (userAgent.indexOf("Windows") !== -1) return { name: "Windows", icon: "🪟" };
+        if (userAgent.indexOf("Mac") !== -1) return { name: "macOS", icon: "🍎" };
+        if (userAgent.indexOf("Linux") !== -1) return { name: "Linux", icon: "🐧" };
         
-        return { name: "Evrensel", icon: "📦", file: "https://github.com/Liytles/aeromchosting/releases/download/v4/AeroMC-Setup.exe" };
+        return { name: "Evrensel", icon: "📦" };
     }
 
     const currentOS = detectOS();
@@ -189,6 +180,24 @@ document.addEventListener("DOMContentLoaded", () => {
         btnText.innerText = currentOS.name + " İçin İndir";
         osIcon.innerText = currentOS.icon;
         osGreeting.innerHTML = `Sen <span>${currentOS.name}</span> kullanıyorsun! Harika, AeroMC'de <span>${currentOS.name}</span> desteği var!`;
+    }
+
+    async function fetchLatestRelease(osName) {
+        try {
+            const res = await fetch('https://api.github.com/repos/Liytles/aeromchosting/releases/latest');
+            const data = await res.json();
+            
+            let ext = ".exe"; 
+            if (osName === "macOS") ext = ".dmg";
+            if (osName === "Linux") ext = ".deb";
+
+            const asset = data.assets.find(a => a.name.endsWith(ext));
+            
+            return asset ? asset.browser_download_url : 'https://github.com/Liytles/aeromchosting/releases/latest';
+        } catch (err) {
+            console.error(err);
+            return 'https://github.com/Liytles/aeromchosting/releases/latest';
+        }
     }
 
     if(container && btn) {
@@ -207,13 +216,13 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector('.right-piece').style.transform = `translate(0, -50%)`;
         });
         
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
             if (container.classList.contains('exploding')) return; 
             
             playSound('explode'); 
 
             container.classList.add('exploding');
-            btnText.innerText = "Başlatılıyor...";
+            btnText.innerText = "Sürüm Aranıyor..."; 
             
             document.body.style.overflow = 'hidden';
             
@@ -226,14 +235,16 @@ document.addEventListener("DOMContentLoaded", () => {
             globalFlash.classList.remove('extinguish');
             globalFlash.classList.add('ignite');
 
+            const finalDownloadUrl = await fetchLatestRelease(currentOS.name);
+
             setTimeout(() => {
                 globalFlash.classList.remove('ignite');
                 globalFlash.classList.add('extinguish');
-                statusText.innerText = `AeroMC ${currentOS.name} sürümü güvenli bir şekilde indiriliyor...`;
+                statusText.innerText = `AeroMC ${currentOS.name} en güncel sürümü indiriliyor...`;
                 statusText.style.opacity = "1";
                 
                 const downloadLink = document.createElement('a');
-                downloadLink.href = currentOS.file; 
+                downloadLink.href = finalDownloadUrl; 
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
@@ -241,6 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 setTimeout(() => {
                     globalFlash.classList.remove('extinguish');
                     document.body.style.overflow = '';
+                    btnText.innerText = "İndirme Başladı";
                 }, 1000);
             }, 1200); 
         });
@@ -318,9 +330,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // =========================================
-    // 3. BİZ KİMİZ (ABOUT) MODALI EKLENTİSİ
-    // =========================================
     const openAboutBtn = document.getElementById('openAboutBtn');
     const closeAboutBtn = document.getElementById('closeAboutBtn');
     const aboutOverlay = document.getElementById('aboutOverlay');
@@ -346,9 +355,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // =========================================
-    // 4. EASTER EGG (GİZLİ TERMİNAL)
-    // =========================================
     let secretCode = "aero";
     let inputSequence = "";
 
