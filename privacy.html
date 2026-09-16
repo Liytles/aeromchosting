@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gizlilik Politikası | AeroMC</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="legal-page">
+
+    <header class="navbar">
+        <div class="nav-brand">
+            <a href="index.html" class="brand-link">
+                <img src="aeromc.png" alt="AeroMC Logo" class="nav-logo-static">
+                <span>AeroMC</span>
+            </a>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="index.html#features">Özellikler</a>
+            <a href="index.html#security">AeroGuard</a>
+            <a href="index.html#download">İndir</a>
+            <a href="terms.html">Kullanım Koşulları</a>
+        </nav>
+    </header>
+
+    <main class="legal-container">
+        <header class="legal-header">
+            <span class="badge">Hukuki Belge</span>
+            <h1>Gizlilik Politikası</h1>
+            <p class="legal-subtitle">Son Güncelleme: 16 Eylül 2026</p>
+        </header>
+
+        <section class="legal-section">
+            <h2>1. Genel Bakış ve Taahhüt</h2>
+            <p>
+                The Aero Group tarafından geliştirilen AeroMC masaüstü yazılımı ve ilişkili web hizmetleri, kullanıcı gizliliğini temel bir ilke olarak benimser. Yazılım mimarimiz, kullanıcı verilerinin sunucularımıza gönderilmediği yerel öncelikli (local-first) prensip doğrultusunda tasarlanmıştır.
+            </p>
+        </section>
+
+        <section class="legal-section">
+            <h2>2. Toplanan ve İşlenen Veriler</h2>
+            <p>AeroMC aşağıdaki veri kategorileri ile çalışır:</p>
+            <ul class="legal-list">
+                <li>
+                    <strong>Yerel Yapılandırma ve Kimlik Bilgileri:</strong> API anahtarlarınız (Exaroton, Pterodactyl, Modrinth) ve sunucu bağlantı parolalarınız, bilgisayarınızda AeroGuard güvenlik katmanı altında AES-256-GCM algoritması ile yerel olarak şifrelenir. Ana şifreleme anahtarı diske kaydedilmez, yalnızca aktif oturum esnasında bellekte (RAM) tutulur.
+                </li>
+                <li>
+                    <strong>Sunucu Günlükleri ve Teşhis Verileri:</strong> Minecraft sunucu logları, Spark performans raporları ve çökme analizi verileri tamamen yerel dosya sisteminizde işlenir. Bu veriler harici herhangi bir AeroMC sunucusuna iletilmez.
+                </li>
+                <li>
+                    <strong>Webhook Bilgileri:</strong> Kullanıcı tarafından tanımlanan Discord Webhook bağlantıları, bildirim iletimi amacıyla doğrudan Discord API uç noktalarına yerel istemcinizden gönderilir.
+                </li>
+            </ul>
+        </section>
+
+        <section class="legal-section">
+            <h2>3. Harici Ağ İstekleri</h2>
+            <p>AeroMC istemcisi yalnızca aşağıdaki durumlarda harici ağ bağlantısı kurar:</p>
+            <ul class="legal-list">
+                <li>Resmi GitHub API üzerinden yeni sürüm kontrolü yapılması.</li>
+                <li>Modrinth API üzerinden mod ve eklenti meta verilerinin sorgulanması.</li>
+                <li>Kullanıcının yapılandırdığı uzak Pterodactyl veya Exaroton API uç noktalarıyla iletişim kurulması.</li>
+                <li>Aternos sunucuları için SRV ve ping tabanlı çevrimiçi durum sorgularının yapılması.</li>
+            </ul>
+            <p>Tüm harici iletişim zorunlu olarak TLS 1.2 veya TLS 1.3 şifreleme protokolleri üzerinden yürütülür.</p>
+        </section>
+
+        <section class="legal-section">
+            <h2>4. Çerezler ve Web Sitesi Analitiği</h2>
+            <p>
+                AeroMC web sitesi kullanıcıları takip eden üçüncü taraf reklam çerezleri veya izleme pikselleri barındırmaz. İstemci taraflı işletim sistemi tespiti tamamen tarayıcınızın standart User-Agent başlığı üzerinden yerel JavaScript ile yapılır ve kaydedilmez.
+            </p>
+        </section>
+
+        <section class="legal-section">
+            <h2>5. İletişim</h2>
+            <p>
+                Gizlilik politikamız veya veri güvenliği protokollerimiz hakkında sorularınız için resmi GitHub depomuz üzerinden iletişime geçebilirsiniz.
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="footer-logo">AeroMC</span>
+                <p>Minecraft sunucu altyapıları için modern yönetim ve güvenlik platformu.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Ana Sayfa</a>
+                <a href="privacy.html">Gizlilik Politikası</a>
+                <a href="terms.html">Kullanım Koşulları</a>
+                <a href="https://github.com/Liytles/AeroMCServerPanel" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Aero Group. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
