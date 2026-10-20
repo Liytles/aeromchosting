@@ -92,7 +92,14 @@ const TRANSLATIONS = {
         "footer.repo": "GitHub Deposu",
         "footer.releases": "Tüm Sürümler",
         "footer.rights": "&copy; 2026 The Aero Group. Tüm hakları saklıdır.",
-        "modal.close": "Kapat"
+        "modal.close": "Kapat",
+
+        // Mobile Notice
+        "mobile.badge": "Masaüstü Sürüm",
+        "mobile.title": "Mobil Sürüm Bulunmamaktadır",
+        "mobile.desc": "AeroMC Server Panel, JavaFX tabanlı bir masaüstü sunucu yönetim aracıdır. Bu web sitesi ve panel yalnızca masaüstü sistemler (Windows, macOS, Linux) için optimize edilmiştir. Lütfen bir bilgisayardan ziyaret edin.",
+        "mobile.github": "GitHub'da İncele",
+        "mobile.bypass": "Masaüstü siteyi yine de görüntüle"
     },
 
     en: {
@@ -182,7 +189,14 @@ const TRANSLATIONS = {
         "footer.repo": "GitHub Repository",
         "footer.releases": "All Releases",
         "footer.rights": "&copy; 2026 The Aero Group. All rights reserved.",
-        "modal.close": "Close"
+        "modal.close": "Close",
+
+        // Mobile Notice
+        "mobile.badge": "Desktop Only",
+        "mobile.title": "Mobile Version Unavailable",
+        "mobile.desc": "AeroMC Server Panel is a desktop application designed for Windows, macOS, and Linux environments. This interface is only optimized for desktop computers. Please visit using a desktop or laptop.",
+        "mobile.github": "View on GitHub",
+        "mobile.bypass": "View desktop site anyway"
     },
 
     es: {
@@ -272,7 +286,14 @@ const TRANSLATIONS = {
         "footer.repo": "Repositorio GitHub",
         "footer.releases": "Todas las Versiones",
         "footer.rights": "&copy; 2026 The Aero Group. Todos los derechos reservados.",
-        "modal.close": "Cerrar"
+        "modal.close": "Cerrar",
+
+        // Mobile Notice
+        "mobile.badge": "Solo Escritorio",
+        "mobile.title": "Versión Móvil No Disponible",
+        "mobile.desc": "AeroMC Server Panel es una aplicación de escritorio para administrar servidores de Minecraft. Este sitio web y el panel están optimizados únicamente para ordenadores (Windows, macOS, Linux). Por favor, accede desde un ordenador.",
+        "mobile.github": "Ver en GitHub",
+        "mobile.bypass": "Ver sitio de escritorio de todos modos"
     }
 };
 

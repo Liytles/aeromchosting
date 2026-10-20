@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/AeroMC-Setup.exe",
+      "destination": "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/AeroMC-5.1.0.exe",
+      "permanent": false
+    },
+    {
+      "source": "/AeroMC-Installer.dmg",
+      "destination": "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/AeroMC-5.1.0.dmg",
+      "permanent": false
+    },
+    {
+      "source": "/AeroMC-Linux.deb",
+      "destination": "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/aeromc_5.1.0_amd64.deb",
+      "permanent": false
+    },
+    {
+      "source": "/download/windows",
+      "destination": "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/AeroMC-5.1.0.exe",
+      "permanent": false
+    },
+    {
+      "source": "/download/mac",
+      "destination": "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/AeroMC-5.1.0.dmg",
+      "permanent": false
+    },
+    {
+      "source": "/download/linux",
+      "destination": "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/aeromc_5.1.0_amd64.deb",
+      "permanent": false
+    },
+    {
+      "source": "/download/jar",
+      "destination": "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/AeroMC-5.1.0-beta.jar",
+      "permanent": false
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}

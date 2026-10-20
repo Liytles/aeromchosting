@@ -6,6 +6,49 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     // -------------------------------------------------------------------------
+    // Mobile Detection - site is desktop-only, show notice on mobile devices
+    // -------------------------------------------------------------------------
+    (function initMobileNotice() {
+        const BREAKPOINT = 820; // px
+
+        function isMobileDevice() {
+            const ua = navigator.userAgent || "";
+            const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua);
+            const narrowScreen = window.innerWidth <= BREAKPOINT;
+            const hasTouch = navigator.maxTouchPoints > 0;
+            return isMobileUA || (hasTouch && narrowScreen) || narrowScreen;
+        }
+
+        const noticeEl = document.getElementById("mobile-notice");
+        const dismissBtn = document.getElementById("btnDismissMobile");
+        const isBypassed = sessionStorage.getItem("aeromc_bypass_mobile") === "1";
+
+        if (isMobileDevice() && !isBypassed) {
+            document.body.classList.add("mobile-active");
+            if (noticeEl) {
+                noticeEl.style.display = "flex";
+            }
+        } else {
+            document.body.classList.remove("mobile-active");
+            if (isBypassed) {
+                document.body.classList.add("mobile-bypassed");
+            }
+            if (noticeEl) {
+                noticeEl.style.display = "none";
+            }
+        }
+
+        if (dismissBtn && noticeEl) {
+            dismissBtn.addEventListener("click", () => {
+                sessionStorage.setItem("aeromc_bypass_mobile", "1");
+                noticeEl.style.display = "none";
+                document.body.classList.remove("mobile-active");
+                document.body.classList.add("mobile-bypassed");
+            });
+        }
+    })();
+
+    // -------------------------------------------------------------------------
     // Location & Locale Detection Engine
     // -------------------------------------------------------------------------
     function detectInitialLanguage() {
@@ -62,7 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return {
                 id: "windows",
                 name: "Windows 10/11",
-                file: "AeroMC-Setup.exe",
+                fileName: "AeroMC-5.1.0.exe",
+                file: "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/AeroMC-5.1.0.exe",
                 labels: {
                     tr: "Windows İçin İndir (.exe)",
                     en: "Download for Windows (.exe)",
@@ -74,7 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return {
                 id: "macos",
                 name: "macOS (Apple Silicon / Intel)",
-                file: "AeroMC-Installer.dmg",
+                fileName: "AeroMC-5.1.0.dmg",
+                file: "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/AeroMC-5.1.0.dmg",
                 labels: {
                     tr: "macOS İçin İndir (.dmg)",
                     en: "Download for macOS (.dmg)",
@@ -86,7 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return {
                 id: "linux",
                 name: "Ubuntu / Debian Linux",
-                file: "AeroMC-Linux.deb",
+                fileName: "aeromc_5.1.0_amd64.deb",
+                file: "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/aeromc_5.1.0_amd64.deb",
                 labels: {
                     tr: "Linux İçin İndir (.deb)",
                     en: "Download for Linux (.deb)",
@@ -98,7 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return {
             id: "universal",
             name: "Masaüstü (Linux / Windows / macOS)",
-            file: "AeroMC-Linux.deb",
+            fileName: "aeromc_5.1.0_amd64.deb",
+            file: "https://github.com/Liytles/AeroMCServerPanel/releases/download/v5.1.0-beta/aeromc_5.1.0_amd64.deb",
             labels: {
                 tr: "AeroMC 5.1 Beta İndir",
                 en: "Download AeroMC 5.1 Beta",
@@ -120,7 +167,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (detectedOsName && primaryDownloadBtn && btnDownloadText) {
             detectedOsName.textContent = currentPlatform.name;
             primaryDownloadBtn.href = currentPlatform.file;
-            primaryDownloadBtn.setAttribute("download", currentPlatform.file);
+            primaryDownloadBtn.target = "_blank";
+            primaryDownloadBtn.rel = "noopener noreferrer";
+            primaryDownloadBtn.removeAttribute("download");
             btnDownloadText.textContent = currentPlatform.labels[currentLang] || currentPlatform.labels.en;
 
             const t = window.TRANSLATIONS && window.TRANSLATIONS[currentLang] ? window.TRANSLATIONS[currentLang] : window.TRANSLATIONS.en;
@@ -129,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 downloadHeading.textContent = `AeroMC 5.1 Beta (${currentPlatform.name})`;
             }
             if (downloadMetaText) {
-                downloadMetaText.textContent = `Paket: ${currentPlatform.file} | ${t["dl.meta.default"] || "64-bit standalone package"}`;
+                downloadMetaText.textContent = `Paket: ${currentPlatform.fileName} | ${t["dl.meta.default"] || "64-bit standalone package"}`;
             }
             if (osGreeting) {
                 const greetings = {
